@@ -8,7 +8,7 @@
       <link href="/2023/10/29/%E5%8D%87%E7%BA%A7%E4%B8%BAwin11%E4%B8%93%E4%B8%9A%E7%89%88/"/>
       <url>/2023/10/29/%E5%8D%87%E7%BA%A7%E4%B8%BAwin11%E4%B8%93%E4%B8%9A%E7%89%88/</url>
       
-        <content type="html"><![CDATA[<p>今天给自己从win11家庭版升级到了win11专业版，简单记录一下，</p><p>先是断网的情况下，从网上找一个密钥，我这里先放两个</p><pre><code>J8WVF-9X3GM-4WVYC-VDHQG-42CXT7Y64F-88DCY-Y6WTC-H33D2-64QHF</code></pre><p>接着慢慢等待更新，更新完毕之后会显示没有激活，这个时候打开powershell,不要用cmd。（需要注意的是这个地方要联网了）输入如下命令</p><pre><code>irm massgrave.dev/get | iex</code></pre><p>无脑选1就行了，别管为啥。然后就可以了。</p>]]></content>
+        <content type="html"><![CDATA[<p>今天给自己从win11家庭版升级到了win11专业版，简单记录一下，</p><p>先是断网的情况下，把密钥给更换喽，从网上找密钥，我这里先放两个</p><pre><code>J8WVF-9X3GM-4WVYC-VDHQG-42CXT7Y64F-88DCY-Y6WTC-H33D2-64QHF</code></pre><p>接着慢慢等待更新，更新完毕之后会显示没有激活，这个时候打开powershell,不要用cmd。（需要注意的是这个地方要联网了）输入如下命令</p><pre><code>irm massgrave.dev/get | iex</code></pre><p>无脑选1就行了，别管为啥。然后就可以了。</p>]]></content>
       
       
       <categories>
