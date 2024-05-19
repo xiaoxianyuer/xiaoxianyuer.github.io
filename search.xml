@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>配置kali下的科学上网</title>
+      <link href="/2024/05/19/%E9%85%8D%E7%BD%AEkali%E4%B8%8B%E7%9A%84%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+      <url>/2024/05/19/%E9%85%8D%E7%BD%AEkali%E4%B8%8B%E7%9A%84%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</url>
+      
+        <content type="html"><![CDATA[<p>今天打比赛的时候虚拟机kali里面的clash出问题了，需要翻墙的文件一直下载失败，临时紧急去解决了一下上网问题。</p><p>简单总结一下</p><p>解决的方法是让虚拟机走物理机的流量（我物理机的梯子是可以正常使用的），先查看一下物理机的ip（ipv4）</p><p>物理机的代理软件可以使用</p><h4 id="v2rayN"><a href="#v2rayN" class="headerlink" title="v2rayN"></a>v2rayN</h4><p>软件界面点击设置中的参数设置选项，勾选“允许来自局域网的连接”即可。 </p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20240519165045193.png"></p><pre><code>项目地址：https://github.com/2dust/v2rayN</code></pre><p>这时软件界面的底部会显示局域网的socks&#x2F;http代理端口socks:10810、http:10811，命令行下可以看到0.0.0.0开启了这两个端口。</p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20240519165138259.png" alt="image-20240519165138259"></p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20240519165153504.png" alt="image-20240519165153504"></p><h4 id="Clash"><a href="#Clash" class="headerlink" title="Clash"></a>Clash</h4><p>Clash软件也可以设置，配置好代理规则后只需开启“允许局域网连接”即可，默认连接端口7890，可自行更改为其他端口，支持socks和http代理。</p><blockquote><p>我就是使用的clash</p></blockquote><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20240519165256336.png" alt="image-20240519165256336"></p><h4 id="S-Socks"><a href="#S-Socks" class="headerlink" title="S-Socks"></a>S-Socks</h4><p>SS&#x2F;SSR节点也可以用S-Socks，在系统任务栏中右键软件图标， 勾选“允许其他设备连入”即可，默认连接端口1080，可自行更改为其他端口。</p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20240519165430209.png" alt="image-20240519165430209"></p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20240519165438422.png" alt="image-20240519165438422"></p><h2 id="虚拟机连接代理"><a href="#虚拟机连接代理" class="headerlink" title="虚拟机连接代理"></a>虚拟机连接代理</h2><p>首先配置vmware的虚拟机，在VMWare的虚拟机设置中，网络连接设置为桥接模式且复制物理网络连接状态（PS：有帖子说校园网环境下应选用NAT模式），</p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20240519170358985.png" alt="image-20240519170358985"></p><blockquote><p>我没有用测试校园网，校园卡流量多就是爽，hhh</p></blockquote><p>Kali或其他Linux可以用ProxyChains，编辑ProxyChains配置文件，输入i进入插入模式，在ProxyList下添加我们的socks5代理，编辑完成后按Esc键退出编辑模式，输入:wq并回车保存即可。</p><pre><code>终端里输入sudo vim /etc/proxychains4.conf，在打开的文件里将dynamic_chain前的#删去，然后注释掉strict_chain，然后在文件最后的[ProxyList]部分加上如下格式的一行：[代理协议] [物理机ip] [v2ray本地监听端口]socks5 111.222.333.4 7980clash用这个端口</code></pre><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20240519170104587.png" alt="image-20240519170104587"></p><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>现在，只要在终端的命令前加上proxychains，这行命令就会走代理</p><p><img src="https://img-1317758194.cos.ap-nanjing.myqcloud.com/typoraimage-20240519170144910.png" alt="image-20240519170144910"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 杂谈 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>升级为win11专业版</title>
       <link href="/2023/10/29/%E5%8D%87%E7%BA%A7%E4%B8%BAwin11%E4%B8%93%E4%B8%9A%E7%89%88/"/>
       <url>/2023/10/29/%E5%8D%87%E7%BA%A7%E4%B8%BAwin11%E4%B8%93%E4%B8%9A%E7%89%88/</url>
